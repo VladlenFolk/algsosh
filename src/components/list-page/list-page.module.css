@@ -1,0 +1,40 @@
+.topContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.botContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 11px;
+}
+
+.input {
+  width: 204px;
+  margin-right: 12px;
+}
+
+.letters {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+  gap: 16px;
+  margin-left: -30px;
+}
+
+.topButton {
+  min-width: 175px;
+  margin-right: 14px;
+}
+
+.botButton {
+  min-width: 363px;
+  margin-right: 14px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}

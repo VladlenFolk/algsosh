@@ -1,0 +1,38 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sample {
+  margin-right: 41px;
+}
+
+.bubble {
+  margin-right: 56px;
+}
+
+.increase {
+  margin-right: 13px;
+}
+
+.decrease {
+  width: 205px;
+  margin-right: 80px;
+}
+
+.newArray {
+  width: 205px;
+}
+
+.gradation {
+  display: flex;
+  align-items: flex-end;
+  list-style-type: none;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.gradationItem {
+  margin-right: 10px;
+}

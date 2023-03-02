@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  width: 380px;
+  margin-right: 12px;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+.circles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 1000px;
+}
+
+.ulContainer {
+  display: flex;
+  justify-content: center;
+  margin-left: 21px;
+  margin-top: 32px;
+}
+.circle {
+  margin-bottom: 61px;
+}
