@@ -79,7 +79,7 @@ export const StackPage: React.FC = () => {
     stack.clear();
     setCircleArr([]);
   };
-
+console.log(isLoaderPush)
   return (
     <SolutionLayout title="Стек">
       <div className={styles.container}>

@@ -15,11 +15,11 @@ export const FibonacciPage: React.FC = () => {
   const [numbersArr, setNumberArr] = useState<number[]>([]);
   const [isLoader, setIsLoader] = useState(false);
 
-  const inputChange = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (
-      value >= minNumber &&
-      value <= maxNumber &&
+      +value >= minNumber &&
+      +value <= maxNumber &&
       Number.isInteger(Number(value))
     ) {
       setInputValue(value);
@@ -34,7 +34,7 @@ export const FibonacciPage: React.FC = () => {
     return arr.slice(1);
   };
 
-  const fibonacci = async (inputValue: string) => {
+  const getFibonacci = async (inputValue: string) => {
     const inputNumber = Number(inputValue);
     const arrFibNums: number[] = getFibonacciNumbers(inputNumber);
     const newArr: number[] = [];
@@ -47,6 +47,11 @@ export const FibonacciPage: React.FC = () => {
     setIsLoader(false);
   };
 
+  const getSequence = (inputValue: string) => {
+    getFibonacci(inputValue);
+    setInputValue("");
+  };
+  console.log(inputValue);
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <div className={styles.container}>
@@ -55,7 +60,7 @@ export const FibonacciPage: React.FC = () => {
           extraClass={styles.input}
           type="number"
           isLimitText
-          onChange={inputChange}
+          onChange={onChange}
           value={inputValue}
           max={19}
           maxLength={2}
@@ -63,9 +68,9 @@ export const FibonacciPage: React.FC = () => {
         <Button
           text={"Рассчитать"}
           isLoader={isLoader}
-          disabled={isLoader ? true : false}
+          disabled={isLoader || inputValue === ""}
           linkedList={"small"}
-          onClick={() => fibonacci(inputValue)}
+          onClick={() => getSequence(inputValue)}
         />
       </div>
       <div className={styles.ulContainer}>

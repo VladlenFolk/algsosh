@@ -36,18 +36,6 @@ export const ListPage: React.FC = () => {
     );
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element = e.target.value;
-    setInputValue(element);
-  };
-
-  const onChangeIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element = e.target.value;
-    if (Number.isInteger(Number(element))) {
-      setIndex(element);
-    }
-  };
-
   const addHead = async () => {
     setLoader(true);
     setAction(Action.AddToHead);
@@ -217,6 +205,22 @@ export const ListPage: React.FC = () => {
     ) : index === result.length - 1 ? (
       "tail"
     ) : undefined;
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const element = e.target.value;
+    setInputValue(element);
+  };
+
+  const onChangeIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (
+      +value > -1 &&
+      +value < linkedList.current.listSize &&
+      Number.isInteger(Number(value))
+    ) {
+      setIndex(value);
+    }
   };
 
   useEffect(() => {

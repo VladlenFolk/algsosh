@@ -63,7 +63,7 @@ export const StringComponent: React.FC = () => {
     [setIsLoader, setArrstring]
   );
 
-  const inputChange = useMemo(
+  const onChange = useMemo(
     () => (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputString(e.target.value);
     },
@@ -78,7 +78,7 @@ export const StringComponent: React.FC = () => {
           extraClass={styles.input}
           isLimitText={true}
           maxLength={11}
-          onChange={inputChange}
+          onChange={onChange}
         />
         <Button
           text={"Развернуть"}

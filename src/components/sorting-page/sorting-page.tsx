@@ -65,7 +65,7 @@ export const SortingPage: React.FC = () => {
     }
   };
 
-  const selection = (
+  const getSortingArray = (
     arr: ColumnItem[],
     direction: boolean,
     nextNumber: number,
@@ -86,7 +86,7 @@ export const SortingPage: React.FC = () => {
     if (nextNumber <= arr.length - 1) {
       setTimeout(() => {
         nextNumber++;
-        selection(arr, direction, nextNumber, min);
+        getSortingArray(arr, direction, nextNumber, min);
       }, DELAY_IN_MS / 2);
     } else {
       let index = min.indexStart;
@@ -106,7 +106,7 @@ export const SortingPage: React.FC = () => {
         };
         min.index = index + 1;
 
-        selection(arr, direction, index + 1, min);
+        getSortingArray(arr, direction, index + 1, min);
       } else {
         arr[index].state = ElementStates.Modified;
         if (index >= arr.length - 1) {
@@ -119,7 +119,7 @@ export const SortingPage: React.FC = () => {
           index: index + 1,
           indexStart: index + 1,
         };
-        selection(arr, direction, index + 1, min);
+        getSortingArray(arr, direction, index + 1, min);
       }
     }
   };
@@ -187,7 +187,7 @@ export const SortingPage: React.FC = () => {
     };
     let minMax = { indexFinish: arr.length - 1 };
     if (sortingMetod === SortingMethod.Selection) {
-      selection(arr, direction, nextNumber, min);
+      getSortingArray(arr, direction, nextNumber, min);
     } else {
       bubble(arr, direction, nextNumber, minMax);
     }
