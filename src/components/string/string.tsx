@@ -14,7 +14,7 @@ export const StringComponent: React.FC = () => {
   const [inputString, setInputString] = useState("");
   const [arrString, setArrstring] = useState<ArrayItem[]>([]);
 
-  const rewerseString = (start: number, end: number, arr: ArrayItem[]) => {
+  const reverseString = (start: number, end: number, arr: ArrayItem[]) => {
     const n = Math.floor(arr.length / 2);
     if (start === end || start === n) {
       arr[start].state = ElementStates.Modified;
@@ -28,7 +28,7 @@ export const StringComponent: React.FC = () => {
         arr[end].state = ElementStates.Modified;
         start++;
         end--;
-        rewerseString(start, end, arr);
+        reverseString(start, end, arr);
       }, DELAY_IN_MS);
     } else {
       setArrstring(arr);
@@ -57,7 +57,7 @@ export const StringComponent: React.FC = () => {
         setArrstring([...arr]);
       }, DELAY_IN_MS);
       setTimeout(() => {
-        rewerseString(0, arr.length - 1, arr);
+        reverseString(0, arr.length - 1, arr);
       }, DELAY_IN_MS);
     },
     [setIsLoader, setArrstring]
