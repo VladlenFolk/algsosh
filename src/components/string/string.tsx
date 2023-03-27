@@ -43,6 +43,7 @@ export const StringComponent: React.FC = () => {
       setIsLoader(true);
       const arr: ArrayItem[] = [];
       const arrItems: string[] = string.split("");
+      setInputString('');
       if (arrItems.length === 1) {
         arr[0] = { item: arrItems[0], state: ElementStates.Modified };
       } else {
@@ -72,15 +73,18 @@ export const StringComponent: React.FC = () => {
 
   return (
     <SolutionLayout title="Строка">
-      <div className={styles.container}>
+      <div className={styles.container} >
         <Input
+          data-cy="input"
           placeholder="Введите текст"
           extraClass={styles.input}
           isLimitText={true}
+          value={inputString}
           maxLength={11}
           onChange={onChange}
         />
         <Button
+          data-cy="button"
           text={"Развернуть"}
           isLoader={isLoader}
           disabled={inputString ? false : true}

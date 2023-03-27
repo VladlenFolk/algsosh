@@ -231,6 +231,7 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <div className={styles.topContainer}>
         <Input
+          data-cy="itemInput"
           placeholder="Введите значение"
           type="text"
           extraClass={styles.input}
@@ -241,6 +242,7 @@ export const ListPage: React.FC = () => {
           disabled={loader}
         />
         <Button
+          data-cy="addHead"
           type={"button"}
           text={"Добавить в head"}
           extraClass={styles.topButton}
@@ -251,6 +253,7 @@ export const ListPage: React.FC = () => {
           isLoader={loader && action === Action.AddToHead}
         />
         <Button
+          data-cy="addTail"
           type={"button"}
           text={"Добавить в tail"}
           extraClass={styles.topButton}
@@ -261,6 +264,7 @@ export const ListPage: React.FC = () => {
           isLoader={loader && action === Action.AddToTail}
         />
         <Button
+          data-cy="deleteHead"
           type={"button"}
           text={"Удалить из head"}
           extraClass={styles.topButton}
@@ -271,6 +275,7 @@ export const ListPage: React.FC = () => {
           isLoader={loader && action === Action.DeleteFromHead}
         />
         <Button
+          data-cy="deleteTail"
           type={"button"}
           text={"Удалить из tail"}
           extraClass={styles.topButton}
@@ -283,6 +288,7 @@ export const ListPage: React.FC = () => {
       </div>
       <div className={styles.botContainer}>
         <Input
+          data-cy="indexInput"
           placeholder="Введите индекс"
           type="number"
           extraClass={styles.input}
@@ -292,6 +298,7 @@ export const ListPage: React.FC = () => {
           onChange={onChangeIndex}
         />
         <Button
+          data-cy="addIndex"
           type={"button"}
           text={"Добавить по индексу"}
           extraClass={styles.botButton}
@@ -304,6 +311,7 @@ export const ListPage: React.FC = () => {
           isLoader={loader && action === Action.AddByIndex}
         />
         <Button
+          data-cy="deleteIndex"
           type={"button"}
           text={"Удалить по индексу"}
           onClick={deleteByIndex}
