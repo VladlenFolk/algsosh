@@ -56,6 +56,7 @@ export const FibonacciPage: React.FC = () => {
     <SolutionLayout title="Последовательность Фибоначчи">
       <div className={styles.container}>
         <Input
+          data-cy="input"
           placeholder="Введите число"
           extraClass={styles.input}
           type="number"
@@ -66,6 +67,7 @@ export const FibonacciPage: React.FC = () => {
           maxLength={2}
         />
         <Button
+          data-cy="button"
           text={"Рассчитать"}
           isLoader={isLoader}
           disabled={isLoader || inputValue === ""}

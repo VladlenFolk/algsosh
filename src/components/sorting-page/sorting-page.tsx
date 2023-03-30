@@ -4,11 +4,10 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
 import { Column } from "../ui/column/column";
 import { Direction } from "../../types/direction";
-import { ColumnItem, ButtonState } from "../../types/sorting-element";
+import { IColumnItem } from "../../types/sorting-element";
 import { ElementStates } from "../../types/element-states";
 import { useState, useMemo, useEffect } from "react";
 import { SortingMethod } from "../../types/sorting-element";
-import { DELAY_IN_MS } from "../../constants/delays";
 import styles from "./sorting-page.module.css";
 import { randomNumber } from "./utils";
 import {
@@ -17,23 +16,12 @@ import {
   minSize,
   maxSize,
 } from "../../constants/element-values";
+import { getBubbleSorting, getSortingArray } from "./utils";
 
 export const SortingPage: React.FC = () => {
-  const [arrNumbers, setArrNumbers] = useState<ColumnItem[]>([]);
-  const [buttonState, setButtonState] = useState<ButtonState>({
-    ascending: {
-      isDisabled: false,
-      isLoading: false,
-    },
-    descending: {
-      isDisabled: false,
-      isLoading: false,
-    },
-    createArray: {
-      isDisabled: false,
-      isLoading: false,
-    },
-  });
+  const [arrNumbers, setArrNumbers] = useState<IColumnItem[]>([]);
+  const [isLoaderAscent, setIsLoaderAscent] = useState<boolean>(false);
+  const [isLoaderDescent, setIsLoaderDescent] = useState<boolean>(false);
   const [sortingMetod, setSortingMethod] = useState<SortingMethod>(
     SortingMethod.Selection
   );
@@ -57,149 +45,43 @@ export const SortingPage: React.FC = () => {
     getNewArray();
   }, []);
 
-  const toggleButton = (toggle: boolean) => {
-    for (let name in buttonState) {
-      buttonState[name].isDisabled = toggle;
-      !toggle && (buttonState[name].isLoading = toggle);
-      setButtonState(buttonState);
+  const onClickSortDescending = () => {
+    if (sortingMetod === "selection") {
+      getSortingArray(
+        arrNumbers,
+        "descending",
+        setArrNumbers,
+        setIsLoaderDescent
+      );
+    }
+    if (sortingMetod === "bubble") {
+      getBubbleSorting(
+        arrNumbers,
+        "descending",
+        setArrNumbers,
+        setIsLoaderDescent
+      );
     }
   };
 
-  const getSortingArray = (
-    arr: ColumnItem[],
-    direction: boolean,
-    nextNumber: number,
-    min: { number: number; index: number; indexStart: number }
-  ) => {
-    nextNumber <= arr.length - 1 &&
-      (arr[nextNumber].state = ElementStates.Changing);
-    min.indexStart + 1 < nextNumber &&
-      (arr[nextNumber - 1].state = ElementStates.Default);
-    setArrNumbers([...arr]);
-    if (
-      nextNumber <= arr.length - 1 &&
-      direction === arr[nextNumber].number < min.number
-    ) {
-      min.number = arr[nextNumber].number;
-      min.index = nextNumber;
+  const onClickSortAscending = () => {
+    if (sortingMetod === "selection") {
+      getSortingArray(
+        arrNumbers,
+        "ascending",
+        setArrNumbers,
+        setIsLoaderAscent
+      );
     }
-    if (nextNumber <= arr.length - 1) {
-      setTimeout(() => {
-        nextNumber++;
-        getSortingArray(arr, direction, nextNumber, min);
-      }, DELAY_IN_MS / 2);
-    } else {
-      let index = min.indexStart;
-      if (direction === arr[index].number > min.number) {
-        arr[min.index].number = arr[index].number;
-        arr[index].number = min.number;
-        arr[index].state = ElementStates.Modified;
-        if (index >= arr.length - 1) {
-          toggleButton(false);
-          setArrNumbers([...arr]);
-          return;
-        }
-        min = {
-          number: arr[index + 1].number,
-          index: index + 1,
-          indexStart: index + 1,
-        };
-        min.index = index + 1;
 
-        getSortingArray(arr, direction, index + 1, min);
-      } else {
-        arr[index].state = ElementStates.Modified;
-        if (index >= arr.length - 1) {
-          toggleButton(false);
-          setArrNumbers([...arr]);
-          return;
-        }
-        min = {
-          number: arr[index + 1].number,
-          index: index + 1,
-          indexStart: index + 1,
-        };
-        getSortingArray(arr, direction, index + 1, min);
-      }
+    if (sortingMetod === "bubble") {
+      getBubbleSorting(
+        arrNumbers,
+        "ascending",
+        setArrNumbers,
+        setIsLoaderDescent
+      );
     }
-  };
-
-  const bubble = (
-    arr: ColumnItem[],
-    direction: boolean,
-    nextNumber: number,
-    min: { indexFinish: number }
-  ) => {
-    const i = nextNumber - 1;
-    nextNumber <= min.indexFinish &&
-      (arr[nextNumber].state = ElementStates.Changing);
-    arr[i].state = ElementStates.Changing;
-    i > 0 && (arr[i - 1].state = ElementStates.Default);
-    setArrNumbers([...arr]);
-    if (
-      nextNumber <= arr.length - 1 &&
-      direction === arr[i].number > arr[nextNumber].number
-    ) {
-      const temp = arr[i].number;
-      arr[i].number = arr[nextNumber].number;
-      arr[nextNumber].number = temp;
-      setTimeout(() => {
-        setArrNumbers([...arr]);
-      }, DELAY_IN_MS);
-    }
-    if (nextNumber < min.indexFinish) {
-      setTimeout(() => {
-        nextNumber++;
-        bubble(arr, direction, nextNumber, min);
-      }, DELAY_IN_MS / 2);
-    } else {
-      if (nextNumber > 1) {
-        setTimeout(() => {
-          arr[nextNumber].state = ElementStates.Modified;
-          arr[i].state = ElementStates.Default;
-          min.indexFinish--;
-          bubble(arr, direction, 1, min);
-        }, DELAY_IN_MS / 2);
-      } else {
-        setTimeout(() => {
-          arr[nextNumber].state = ElementStates.Modified;
-          arr[i].state = ElementStates.Modified;
-          toggleButton(false);
-          setArrNumbers([...arr]);
-        }, DELAY_IN_MS / 2);
-      }
-    }
-  };
-
-  const sort = (
-    direction: boolean,
-    arr: ColumnItem[],
-    currNumber: number,
-    nextNumber: number
-  ) => {
-    if (nextNumber > arr.length - 1) return;
-    arr[currNumber].state = ElementStates.Changing;
-    arr[nextNumber].state = ElementStates.Changing;
-    let min = {
-      number: arr[currNumber].number,
-      index: currNumber,
-      indexStart: currNumber,
-    };
-    let minMax = { indexFinish: arr.length - 1 };
-    if (sortingMetod === SortingMethod.Selection) {
-      getSortingArray(arr, direction, nextNumber, min);
-    } else {
-      bubble(arr, direction, nextNumber, minMax);
-    }
-  };
-
-  const sortArray = (direction: Direction) => {
-    toggleButton(true);
-    setButtonState({
-      ...buttonState,
-      [direction]: { ...buttonState[direction], isLoading: true },
-    });
-    sort(direction === "ascending" ? true : false, arrNumbers, 0, 1);
   };
 
   return (
@@ -221,22 +103,22 @@ export const SortingPage: React.FC = () => {
           text="По возрастанию"
           sorting={Direction.Ascending}
           extraClass={styles.increase}
-          disabled={buttonState.ascending.isDisabled}
-          isLoader={buttonState.ascending.isLoading}
-          onClick={() => sortArray(Direction.Ascending)}
+          disabled={isLoaderDescent || arrNumbers.length === 0}
+          isLoader={isLoaderAscent}
+          onClick={onClickSortAscending}
         />
         <Button
           text="По убыванию"
           sorting={Direction.Descending}
           extraClass={styles.decrease}
-          disabled={buttonState.descending.isDisabled}
-          isLoader={buttonState.descending.isLoading}
-          onClick={() => sortArray(Direction.Descending)}
+          disabled={isLoaderAscent || arrNumbers.length === 0}
+          isLoader={isLoaderDescent}
+          onClick={onClickSortDescending}
         />
         <Button
           text="Новый массив"
           extraClass={styles.newArray}
-          disabled={buttonState.createArray.isDisabled}
+          disabled={isLoaderAscent || isLoaderDescent}
           onClick={getNewArray}
         />
       </div>

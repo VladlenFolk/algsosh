@@ -79,11 +79,12 @@ export const StackPage: React.FC = () => {
     stack.clear();
     setCircleArr([]);
   };
-console.log(isLoaderPush)
+
   return (
     <SolutionLayout title="Стек">
       <div className={styles.container}>
         <Input
+          data-cy="input"
           placeholder="Введите текст"
           extraClass={styles.input}
           isLimitText={true}
@@ -92,6 +93,7 @@ console.log(isLoaderPush)
           onChange={onChange}
         />
         <Button
+          data-cy="button"
           disabled={isLoaderPush || !inputValue}
           text={"Добавить"}
           extraClass={styles.add}
@@ -99,6 +101,7 @@ console.log(isLoaderPush)
           isLoader={isLoaderPush}
         />
         <Button
+          data-cy="deleteButton"
           text={"Удалить"}
           extraClass={styles.delete}
           onClick={pop}
@@ -106,6 +109,7 @@ console.log(isLoaderPush)
           isLoader={isLoaderPop}
         />
         <Button
+          data-cy="clearButton"
           text={"Очистить"}
           extraClass={styles.clear}
           disabled={disabledButtonClear}

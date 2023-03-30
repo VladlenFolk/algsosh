@@ -60,7 +60,7 @@ export const QueuePage: React.FC = () => {
         ...newArr[head.index],
         value: head.value,
         head: HEAD,
-        state: ElementStates.Changing,
+        state: ElementStates.Default,
       };
       setCircleArr([...newArr]);
     }
@@ -94,6 +94,7 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
       <div className={styles.container}>
         <Input
+          data-cy="input"
           placeholder="Введите текст"
           type="text"
           extraClass={styles.input}
@@ -103,6 +104,7 @@ export const QueuePage: React.FC = () => {
           onChange={onChange}
         />
         <Button
+          data-cy="button"
           text={"Добавить"}
           extraClass={styles.add}
           onClick={enqueue}
@@ -110,6 +112,7 @@ export const QueuePage: React.FC = () => {
           isLoader={isLoaderEnqueue}
         />
         <Button
+          data-cy="deleteButton"
           text={"Удалить"}
           extraClass={styles.delete}
           onClick={dequeue}
@@ -117,6 +120,7 @@ export const QueuePage: React.FC = () => {
           isLoader={isLoaderDenqueue}
         />
         <Button
+          data-cy="clearButton"
           text={"Очистить"}
           extraClass={styles.clear}
           onClick={clear}

@@ -5,14 +5,7 @@ export enum SortingMethod {
   Bubble = "bubble",
 }
 
-export interface ColumnItem {
-  number: number;
-  state: ElementStates;
-}
-
-export interface ButtonState {
-  [name: string]: {
-    isDisabled: boolean;
-    isLoading?: boolean;
-  };
+export interface IColumnItem {
+  number?: number;
+  state?: ElementStates;
 }

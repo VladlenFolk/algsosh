@@ -14,7 +14,7 @@ export const StringComponent: React.FC = () => {
   const [inputString, setInputString] = useState("");
   const [arrString, setArrstring] = useState<ArrayItem[]>([]);
 
-  const rewerseString = (start: number, end: number, arr: ArrayItem[]) => {
+  const reverseString = (start: number, end: number, arr: ArrayItem[]) => {
     const n = Math.floor(arr.length / 2);
     if (start === end || start === n) {
       arr[start].state = ElementStates.Modified;
@@ -28,7 +28,7 @@ export const StringComponent: React.FC = () => {
         arr[end].state = ElementStates.Modified;
         start++;
         end--;
-        rewerseString(start, end, arr);
+        reverseString(start, end, arr);
       }, DELAY_IN_MS);
     } else {
       setArrstring(arr);
@@ -43,6 +43,7 @@ export const StringComponent: React.FC = () => {
       setIsLoader(true);
       const arr: ArrayItem[] = [];
       const arrItems: string[] = string.split("");
+      setInputString('');
       if (arrItems.length === 1) {
         arr[0] = { item: arrItems[0], state: ElementStates.Modified };
       } else {
@@ -57,7 +58,7 @@ export const StringComponent: React.FC = () => {
         setArrstring([...arr]);
       }, DELAY_IN_MS);
       setTimeout(() => {
-        rewerseString(0, arr.length - 1, arr);
+        reverseString(0, arr.length - 1, arr);
       }, DELAY_IN_MS);
     },
     [setIsLoader, setArrstring]
@@ -72,15 +73,18 @@ export const StringComponent: React.FC = () => {
 
   return (
     <SolutionLayout title="Строка">
-      <div className={styles.container}>
+      <div className={styles.container} >
         <Input
+          data-cy="input"
           placeholder="Введите текст"
           extraClass={styles.input}
           isLimitText={true}
+          value={inputString}
           maxLength={11}
           onChange={onChange}
         />
         <Button
+          data-cy="button"
           text={"Развернуть"}
           isLoader={isLoader}
           disabled={inputString ? false : true}
